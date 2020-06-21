@@ -13,6 +13,9 @@ import com.deep.recipe.repositories.CategoryRepository;
 import com.deep.recipe.repositories.UnitOfMeasureRepository;
 import com.deep.recipe.services.RecipeService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class IndexController {
 	
@@ -27,7 +30,8 @@ public class IndexController {
 	
 	@RequestMapping({"", "/", "/index"})
 	public String getIndexPage(Model model) {
-		
+	
+		log.debug("I am inside Index controller and getting index page!!!!!!!!!!!");
 		Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
 		Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 		
