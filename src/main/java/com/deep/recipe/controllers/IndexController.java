@@ -25,19 +25,27 @@ public class IndexController {
 	@Autowired
 	private UnitOfMeasureRepository unitOfMeasureRepository;
 	
-	@Autowired
+	//@Autowired
 	private RecipeService recipeServiceImpl;
 	
+	
+	
+	public IndexController(RecipeService recipeServiceImpl) {
+		this.recipeServiceImpl = recipeServiceImpl;
+	}
+
+
+
 	@RequestMapping({"", "/", "/index"})
 	public String getIndexPage(Model model) {
 	
 		log.debug("I am inside Index controller and getting index page!!!!!!!!!!!");
-		Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
-		Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
+	//	Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
+	//	Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 		
-		System.out.println(categoryOptional.get().getId() +"  " + categoryOptional.get().getDescription());
+	//	System.out.println(categoryOptional.get().getId() +"  " + categoryOptional.get().getDescription());
 		
-		System.out.println(unitOfMeasureOptional.get().getId() + "  " + unitOfMeasureOptional.get().getDescription());
+	//	System.out.println(unitOfMeasureOptional.get().getId() + "  " + unitOfMeasureOptional.get().getDescription());
 		
 		model.addAttribute("recipes", recipeServiceImpl.getRecipes());
 		return "index";
