@@ -81,6 +81,27 @@ class IngredientControllerTest {
 		mockMvc.perform(get("/recipe/1/ingredient/2/show")).andExpect(status().isOk())
 				.andExpect(view().name("recipe/ingredient/show")).andExpect(model().attributeExists("ingredient"));
 	}
+	
+	 @Test
+	    public void testNewIngredientForm() throws Exception {
+	        //given
+	        RecipeCommand recipeCommand = new RecipeCommand();
+	        recipeCommand.setId(1L);
+
+	        //when
+	        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+	        when(unitOfMeasureService.listAllUoms()).thenReturn(new HashSet<>());
+
+	        //then
+	        mockMvc.perform(get("/recipe/1/ingredient/new"))
+	                .andExpect(status().isOk())
+	                .andExpect(view().name("recipe/ingredient/ingredientform"))
+	                .andExpect(model().attributeExists("ingredient"))
+	                .andExpect(model().attributeExists("uomList"));
+
+	        Mockito.verify(recipeService, Mockito.times(1)).findCommandById(anyLong());
+
+	    }
 
 	@Test
 	public void testUpdateIngredientForm() throws Exception {
@@ -113,5 +134,17 @@ class IngredientControllerTest {
 				.andExpect(view().name("redirect:/recipe/2/ingredient/3/show"));
 
 	}
+	
+	@Test
+    public void testDeleteIngredient() throws Exception {
+		//then 
+		mockMvc.perform(get("/recipe/2/ingredient/3/delete"))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/recipe/2/ingredients"));
+		
+		Mockito.verify(ingredientService, Mockito.times(1)).deleteById(anyLong(), anyLong());
+		
+	}
+
 
 }
